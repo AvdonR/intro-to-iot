@@ -16,7 +16,7 @@ new Vue( {
         return {
             lock_name: "",
             ip: "",
-            status: true,
+            status: "",
             locks: [],
             isLoading: true,
             selectedLock: "",
@@ -35,8 +35,9 @@ new Vue( {
                 .post( "/api/locks/add", lock )
                 .then( () => {
                     (this as any).$refs.lock_name.focus();
+                    (this as any).lock_name = "";
                     (this as any).ip = "";
-                    (this as any).status = true;
+                    (this as any).status = "";
                     (this as any).lockLocks();
                 } )
                 .catch( ( err: any ) => {
