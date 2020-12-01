@@ -49,7 +49,7 @@ new Vue( {
             (this as any).selectedLock = `${ lock.lock_name } ${ lock.ip } ${ lock.status }`;
             (this as any).selectedLockID = lock.id;
             const dc = this.$refs.deleteConfirm;
-            const modal = M.Modal.init( dc );
+            const modal = M.Modal.init( dc as Element );
             modal.open();
         },
         deleteLock( id: string ) {
