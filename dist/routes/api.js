@@ -31,6 +31,7 @@ const register = (app) => {
             const locks = yield db.any(`
                 SELECT
                     id
+                    , lock_name
                     , ip
                     , status
                 FROM    locks
@@ -69,11 +70,12 @@ const register = (app) => {
             const locks = yield db.any(`
                 SELECT
                     id
+                    , lock_name
                     , ip
                     , status
                 FROM    locks
                 WHERE   user_id = $[userId]
-                AND   ( ip ILIKE $[search] OR status ILIKE $[search] )`, { userId, search: `%${req.params.search}%` });
+                AND   ( lock_name ILIKE $[search] OR ip ILIKE $[search] OR status ILIKE $[search] )`, { userId, search: `%${req.params.search}%` });
             return res.json(locks);
         }
         catch (err) {
@@ -86,8 +88,8 @@ const register = (app) => {
         try {
             const userId = req.userContext.userinfo.sub;
             const id = yield db.one(`
-                INSERT INTO locks( user_id, ip, status )
-                VALUES( $[userId], $[ip], $[status] )
+                INSERT INTO locks( user_id, lock_name, ip, status )
+                VALUES( $[userId], $[lock_name], $[ip], $[status] )
                 RETURNING id;`, Object.assign({ userId }, req.body));
             return res.json({ id });
         }
@@ -102,7 +104,8 @@ const register = (app) => {
             const userId = req.userContext.userinfo.sub;
             const id = yield db.one(`
                 UPDATE locks
-                SET ip = $[ip]
+                SET lock_name = $[lock_name]
+                    , ip = $[ip]
                     , status = $[status]
                 WHERE
                     id = $[id]

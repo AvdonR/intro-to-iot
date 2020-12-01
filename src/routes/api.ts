@@ -20,6 +20,7 @@ export const register = ( app: express.Application ) => {
             const locks = await db.any( `
                 SELECT
                     id
+                    , lock_name
                     , ip
                     , status
                 FROM    locks
@@ -58,11 +59,12 @@ export const register = ( app: express.Application ) => {
             const locks = await db.any( `
                 SELECT
                     id
+                    , lock_name
                     , ip
                     , status
                 FROM    locks
                 WHERE   user_id = $[userId]
-                AND   ( ip ILIKE $[search] OR status ILIKE $[search] )`,
+                AND   ( lock_name ILIKE $[search] OR ip ILIKE $[search] OR status ILIKE $[search] )`,
                 { userId, search: `%${ req.params.search }%` } );
             return res.json( locks );
         } catch ( err ) {
@@ -76,8 +78,8 @@ export const register = ( app: express.Application ) => {
         try {
             const userId = req.userContext.userinfo.sub;
             const id = await db.one( `
-                INSERT INTO locks( user_id, ip, status )
-                VALUES( $[userId], $[ip], $[status] )
+                INSERT INTO locks( user_id, lock_name, ip, status )
+                VALUES( $[userId], $[lock_name], $[ip], $[status] )
                 RETURNING id;`,
                 { userId, ...req.body  } );
             return res.json( { id } );
@@ -93,7 +95,8 @@ export const register = ( app: express.Application ) => {
             const userId = req.userContext.userinfo.sub;
             const id = await db.one( `
                 UPDATE locks
-                SET ip = $[ip]
+                SET lock_name = $[lock_name]
+                    , ip = $[ip]
                     , status = $[status]
                 WHERE
                     id = $[id]

@@ -38,7 +38,7 @@ new Vue( {
                     (this as any).lock_name = "";
                     (this as any).ip = "";
                     (this as any).status = "";
-                    (this as any).lockLocks();
+                    (this as any).loadLocks();
                 } )
                 .catch( ( err: any ) => {
                     // tslint:disable-next-line:no-console
