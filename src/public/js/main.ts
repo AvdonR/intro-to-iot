@@ -6,10 +6,10 @@ import Vue from "vue";
 new Vue( {
     computed: {
         hasLocks(): boolean {
-            return this.isLoading === false && this.locks.length > 0;
+            return (this as any).isLoading === false && (this as any).locks.length > 0;
         },
         noLocks(): boolean {
-            return this.isLoading === false && this.locks.length === 0;
+            return (this as any).isLoading === false && (this as any).locks.length === 0;
         }
     },
     data() {
@@ -27,17 +27,17 @@ new Vue( {
     methods: {
         addLock() {
             const lock = {
-                lock_name: this.lock_name,
-                ip: this.ip,
-                status: this.status
+                lock_name: (this as any).lock_name,
+                ip: (this as any).ip,
+                status: (this as any).status
             };
             axios
                 .post( "/api/locks/add", lock )
                 .then( () => {
-                    this.$refs.lock_name.focus();
-                    this.ip = "";
-                    this.status = true;
-                    this.lockLocks();
+                    (this as any).$refs.lock_name.focus();
+                    (this as any).ip = "";
+                    (this as any).status = true;
+                    (this as any).lockLocks();
                 } )
                 .catch( ( err: any ) => {
                     // tslint:disable-next-line:no-console
@@ -45,9 +45,9 @@ new Vue( {
                 } );
         },
         confirmDeleteLock( id: string ) {
-            const lock = this.locks.find( ( l: { id: string; } ) => l.id === id );
-            this.selectedLock = `${ lock.lock_name } ${ lock.ip } ${ lock.status }`;
-            this.selectedLockID = lock.id;
+            const lock = (this as any).locks.find( ( l: { id: string; } ) => l.id === id );
+            (this as any).selectedLock = `${ lock.lock_name } ${ lock.ip } ${ lock.status }`;
+            (this as any).selectedLockID = lock.id;
             const dc = this.$refs.deleteConfirm;
             const modal = M.Modal.init( dc );
             modal.open();
@@ -55,7 +55,7 @@ new Vue( {
         deleteLock( id: string ) {
             axios
                 .delete( `/api/locks/remove/${ id }` )
-                .then( this.loadLocks )
+                .then( (this as any).loadLocks )
                 .catch( ( err: any ) => {
                     // tslint:disable-next-line:no-console
                     console.log( err );
@@ -65,8 +65,8 @@ new Vue( {
             axios
                 .get( "/api/locks/all" )
                 .then( ( res: any ) => {
-                    this.isLoading = false;
-                    this.locks = res.data;
+                    (this as any).isLoading = false;
+                    (this as any).locks = res.data;
                 } )
                 .catch( ( err: any ) => {
                     // tslint:disable-next-line:no-console
@@ -75,6 +75,6 @@ new Vue( {
         }
     },
     mounted() {
-        return this.loadLocks();
+        return (this as any).loadLocks();
     }
 } );
