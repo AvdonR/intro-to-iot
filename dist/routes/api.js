@@ -99,7 +99,7 @@ const register = (app) => {
             res.json({ error: err.message || err });
         }
     }));
-    app.post(`/api/locks/update`, oidc.ensureAuthenticated(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    app.post(`/api/locks/update/:id`, oidc.ensureAuthenticated(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const userId = req.userContext.userinfo.sub;
             const id = yield db.one(`

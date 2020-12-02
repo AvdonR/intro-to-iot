@@ -62,6 +62,23 @@ new Vue( {
                     console.log( err );
                 } );
         },
+        confirmEditLock( id: string ) {
+            const lock = (this as any).locks.find( ( l: { id: string; } ) => l.id === id );
+            (this as any).selectedLock = `${ lock.lock_name } ${ lock.ip } ${ lock.status }`;
+            (this as any).selectedLockID = lock.id;
+            const dc = this.$refs.editConfirm;
+            const modal = M.Modal.init( dc as Element );
+            modal.open();
+        },
+        editLock( id: string ) {
+            axios
+                .post( `/api/locks/update/${ id }` )
+                .then( (this as any).loadLocks )
+                .catch( ( err: any ) => {
+                    // tslint:disable-next-line:no-console
+                    console.log( err );
+                } );
+        },
         loadLocks() {
             axios
                 .get( "/api/locks/all" )

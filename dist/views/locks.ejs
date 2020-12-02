@@ -21,6 +21,7 @@
                             <th>IP</th>
                             <th>Status</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,6 +29,9 @@
                             <td>{{ lock.lock_name }}</td>
                             <td>{{ lock.ip }}</td>
                             <td>{{ lock.status }}</td>
+                            <td>
+                                <button id="lockEdit" @click="confirmEditLock(lock.id)" class="btn-small"><i class="material-icons right">edit</i>Change status</button>
+                            </td>
                             <td>
                                 <button id="lockDelete" @click="confirmDeleteLock(lock.id)" class="btn-small"><i class="material-icons right">delete</i>Delete</button>
                             </td>
@@ -56,6 +60,7 @@
                     <button id="lockEditSubmit" class="btn" type="submit"><i class="material-icons right">send</i>Submit</button>
                 </form>
             </div>
+            
             <div id="deleteConfirm" ref="deleteConfirm" class="modal">
                 <div class="modal-content">
                     <h4>Confirm delete</h4>
@@ -66,6 +71,18 @@
                     <button class="modal-close btn-flat">Cancel</button>
                 </div>
             </div>
+
+            <div id="editConfirm" ref="editConfirm" class="modal">
+                <div class="modal-content">
+                    <h4>Confirm edit</h4>
+                    <p>Change status of {{ selectedLock }}?</p>
+                </div>
+                <div class="modal-footer">
+                    <button @click="editLock(selectedLockID)" class="modal-close btn-flat">Ok</button>
+                    <button class="modal-close btn-flat">Cancel</button>
+                </div>
+            </div>
+
         </div>
     </div>
     <script src="js/main.js"></script></body>

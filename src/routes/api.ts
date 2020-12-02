@@ -90,7 +90,7 @@ export const register = ( app: express.Application ) => {
         }
     } );
 
-    app.post( `/api/locks/update`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
+    app.post( `/api/locks/update/:id`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
             const userId = req.userContext.userinfo.sub;
             const id = await db.one( `
