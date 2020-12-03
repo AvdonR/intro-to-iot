@@ -106,7 +106,8 @@ const register = (app) => {
                 UPDATE  locks
                 SET     status = 'Closed'
                 WHERE   user_id = $[userId]
-                AND     id = $[id]`, { userId, id: req.params.id, status: req.params.status });
+                AND     id = $[id]
+                RETURNING id`, { userId, id: req.params.id, status: req.params.status });
             // { userId, ...req.body  } );
             return res.json({ id });
         }

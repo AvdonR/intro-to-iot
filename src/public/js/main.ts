@@ -2,7 +2,6 @@ import axios from "axios";
 import * as M from "materialize-css";
 import Vue from "vue";
 
-// tslint:disable-next-line no-unused-expression
 new Vue( {
     computed: {
         hasLocks(): boolean {
@@ -31,9 +30,10 @@ new Vue( {
                 ip: (this as any).ip,
                 status: (this as any).status
             };
+            //client = mqtt.connect("mqtt://"+lock.ip+":1883");
             axios
                 .post( "/api/locks/add", lock )
-                .then( () => {
+                .then( (userId) => {
                     (this as any).$refs.lock_name.focus();
                     (this as any).lock_name = "";
                     (this as any).ip = "";
@@ -52,6 +52,7 @@ new Vue( {
             const dc = this.$refs.deleteConfirm;
             const modal = M.Modal.init( dc as Element );
             modal.open();
+            //client.end();
         },
         deleteLock( id: string ) {
             axios
@@ -71,6 +72,20 @@ new Vue( {
             modal.open();
         },
         editLock( id: string ) {
+            const lock = {
+                lock_name: (this as any).lock_name,
+                ip: (this as any).ip,
+                status: (this as any).status,
+                id: id
+            };
+            /*client.on('connect', function () {
+                client.subcribe('home/sensors/lock_state', function (err: any) {
+                    if (!err) {
+                        
+                    }
+                })
+            });*/
+            
             // tslint:disable-next-line:no-console
             console.log("test");
             axios
@@ -95,6 +110,13 @@ new Vue( {
         }
     },
     mounted() {
+        /** FIXME
+         * var mqtt    = require('mqtt');
+         * var client  = mqtt.connect("mqtt://test.mosquitto.org",{clientId:"mqttjs01"});
+         * client.on("connect",function(){	
+         * console.log("connected");
+         * })
+         */
         return (this as any).loadLocks();
     }
 } );

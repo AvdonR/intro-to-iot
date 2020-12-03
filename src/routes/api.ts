@@ -97,7 +97,8 @@ export const register = ( app: express.Application ) => {
                 UPDATE  locks
                 SET     status = 'Closed'
                 WHERE   user_id = $[userId]
-                AND     id = $[id]`,
+                AND     id = $[id]
+                RETURNING id`,
                 { userId, id: req.params.id, status: req.params.status  } );
                 // { userId, ...req.body  } );
             return res.json( { id } );

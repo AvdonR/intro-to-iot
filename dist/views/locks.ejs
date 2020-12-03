@@ -19,6 +19,7 @@
                         <tr>
                             <th>Name</th>
                             <th>IP</th>
+                            <th>Device_ID</th>
                             <th>Status</th>
                             <th></th>
                             <th></th>
@@ -28,6 +29,7 @@
                         <tr v-for="lock in locks">
                             <td>{{ lock.lock_name }}</td>
                             <td>{{ lock.ip }}</td>
+                            <td>{{ lock.id }}</td>
                             <td>{{ lock.status }}</td>
                             <td>
                                 <button id="lockEdit" @click="confirmEditLock(lock.id)" class="btn-small"><i class="material-icons right">edit</i>Change status</button>
