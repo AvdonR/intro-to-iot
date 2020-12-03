@@ -1,5 +1,6 @@
-# Introduction to IoT Project - Node.js API using Express, TypeScript, Vue, and PostgreSQL
+# Introduction to IoT Project - IoT Smart Lock System
 
+## Node.js API using Express, TypeScript, Vue, PostgreSQL, and MQTT
 This project utilizes a wide range of technologies to implement an IoT Smart Lock system. The front-end web interface utilizes a custom API that interacts with a PostgreSQL database and a MQTT message broker service. A third-party authentication service (API) is also used to handle user login and manage different lock states per user.
 
 ## Requirements
