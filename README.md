@@ -12,7 +12,7 @@ This project utilizes a wide range of technologies to implement an IoT Smart Loc
 
 * Clone or download this repository
 * Install modules using `npm install`
-* Set up [PostgreSQL with Docker](https://docs.docker.com/samples/library/postgres/). Once Docker is installed, create a new PostgreSQL database using the following commands. If a different database name and password is chosen here, you must also update the `.env` file to relfect this change.
+* Set up [PostgreSQL with Docker](https://docs.docker.com/samples/library/postgres/). Once Docker is installed, create a new PostgreSQL database using the following commands. If a different database name and password is chosen here, you must also update the `.env` file to reflect this change.
 
 ```bash
 docker pull postgres
