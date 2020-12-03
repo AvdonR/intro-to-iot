@@ -92,12 +92,12 @@ export const register = ( app: express.Application ) => {
 
     app.post( `/api/locks/update/:id`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
+            // tslint:disable-next-line:no-console
+            console.log("here");
             const userId = req.userContext.userinfo.sub;
             const id = await db.one( `
                 UPDATE locks
-                SET lock_name = $[lock_name]
-                    , ip = $[ip]
-                    , status = $[status]
+                SET status = $[status]
                 WHERE
                     id = $[id]
                     AND user_id = $[userId]

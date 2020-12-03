@@ -101,12 +101,12 @@ const register = (app) => {
     }));
     app.post(`/api/locks/update/:id`, oidc.ensureAuthenticated(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
+            // tslint:disable-next-line:no-console
+            console.log("here");
             const userId = req.userContext.userinfo.sub;
             const id = yield db.one(`
                 UPDATE locks
-                SET lock_name = $[lock_name]
-                    , ip = $[ip]
-                    , status = $[status]
+                SET status = $[status]
                 WHERE
                     id = $[id]
                     AND user_id = $[userId]

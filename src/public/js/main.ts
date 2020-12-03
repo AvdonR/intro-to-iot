@@ -71,9 +71,19 @@ new Vue( {
             modal.open();
         },
         editLock( id: string ) {
+            if ((this as any).status.localeCompare("Open")){
+                status = "Open";
+            } else{
+                status = "Closed";
+            };
+            const lock = {
+                status
+            };
+            // tslint:disable-next-line:no-console
+            console.log("main");
             axios
-                .post( `/api/locks/update/${ id }` )
-                .then( (this as any).loadLocks )
+                .post( `/api/locks/update/${ id }` , lock)
+                .then( (this as any).loadLocks() )
                 .catch( ( err: any ) => {
                     // tslint:disable-next-line:no-console
                     console.log( err );
