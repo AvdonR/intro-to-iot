@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as M from "materialize-css";
 import Vue from "vue";
-//import mqtt from "paho-mqtt";
+import mqtt from "paho-mqtt";
 
 new Vue( {
     computed: {
@@ -26,6 +26,8 @@ new Vue( {
     el: "#app",
     methods: {
         addLock() {
+            // tslint:disable-next-line:no-console
+            console.log("method inside");
             const lock = {
                 lock_name: (this as any).lock_name,
                 ip: (this as any).ip,
@@ -111,8 +113,6 @@ new Vue( {
             }
         },
         mounted() {
-            // tslint:disable-next-line:no-console
-            console.log("method inside");
             return (this as any).loadLocks();
         }
 } );
