@@ -101,17 +101,13 @@ const register = (app) => {
     }));
     app.post(`/api/locks/update/:id`, oidc.ensureAuthenticated(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            // tslint:disable-next-line:no-console
-            console.log("here");
             const userId = req.userContext.userinfo.sub;
             const id = yield db.one(`
-                UPDATE locks
-                SET status = $[status]
-                WHERE
-                    id = $[id]
-                    AND user_id = $[userId]
-                RETURNING
-                    id;`, Object.assign({ userId }, req.body));
+                UPDATE  locks
+                SET     status = 'Closed'
+                WHERE   user_id = $[userId]
+                AND     id = $[id]`, { userId, id: req.params.id, status: req.params.status });
+            // { userId, ...req.body  } );
             return res.json({ id });
         }
         catch (err) {

@@ -92,18 +92,14 @@ export const register = ( app: express.Application ) => {
 
     app.post( `/api/locks/update/:id`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
-            // tslint:disable-next-line:no-console
-            console.log("here");
             const userId = req.userContext.userinfo.sub;
             const id = await db.one( `
-                UPDATE locks
-                SET status = $[status]
-                WHERE
-                    id = $[id]
-                    AND user_id = $[userId]
-                RETURNING
-                    id;`,
-                { userId, ...req.body  } );
+                UPDATE  locks
+                SET     status = 'Closed'
+                WHERE   user_id = $[userId]
+                AND     id = $[id]`,
+                { userId, id: req.params.id, status: req.params.status  } );
+                // { userId, ...req.body  } );
             return res.json( { id } );
         } catch ( err ) {
             // tslint:disable-next-line:no-console
