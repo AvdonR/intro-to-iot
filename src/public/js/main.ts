@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as M from "materialize-css";
 import Vue from "vue";
+//import mqtt from "paho-mqtt";
 
 new Vue( {
     computed: {
@@ -107,16 +108,11 @@ new Vue( {
                     // tslint:disable-next-line:no-console
                     console.log( err );
                 } );
+            }
+        },
+        mounted() {
+            // tslint:disable-next-line:no-console
+            console.log("method inside");
+            return (this as any).loadLocks();
         }
-    },
-    mounted() {
-        /** FIXME
-         * var mqtt    = require('mqtt');
-         * var client  = mqtt.connect("mqtt://test.mosquitto.org",{clientId:"mqttjs01"});
-         * client.on("connect",function(){	
-         * console.log("connected");
-         * })
-         */
-        return (this as any).loadLocks();
-    }
 } );
