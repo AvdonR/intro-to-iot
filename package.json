@@ -40,7 +40,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "materialize-css": "^1.0.0",
-    "paho-mqtt": "^1.1.0",
+    "mqtt": "^4.0.1",
     "pg": "^8.5.1",
     "pg-promise": "^10.8.1",
     "vue": "^2.6.12"

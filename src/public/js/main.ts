@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as M from "materialize-css";
 import Vue from "vue";
-import mqtt from "paho-mqtt";
+import * as mqtt from "mqtt";
 
 new Vue( {
     computed: {
@@ -25,15 +25,18 @@ new Vue( {
     },
     el: "#app",
     methods: {
+        mqttRun(){
+            const client = mqtt.connect('ws://localhost:9000');
+            client.on('message', (topic, message) => {
+                console.log(topic, message);
+            });
+        },
         addLock() {
-            // tslint:disable-next-line:no-console
-            console.log("method inside");
             const lock = {
                 lock_name: (this as any).lock_name,
                 ip: (this as any).ip,
                 status: (this as any).status
             };
-            //client = mqtt.connect("mqtt://"+lock.ip+":1883");
             axios
                 .post( "/api/locks/add", lock )
                 .then( (userId) => {
@@ -55,7 +58,6 @@ new Vue( {
             const dc = this.$refs.deleteConfirm;
             const modal = M.Modal.init( dc as Element );
             modal.open();
-            //client.end();
         },
         deleteLock( id: string ) {
             axios
@@ -113,6 +115,8 @@ new Vue( {
             }
         },
         mounted() {
+            // tslint:disable-next-line:no-console
+            console.log("method inside");
             return (this as any).loadLocks();
         }
 } );
