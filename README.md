@@ -42,4 +42,4 @@ By default, the web application should now be running at [http://localhost:8080]
 * [Vue](https://vuejs.org/)
 * [Materialize](https://materializecss.com/)
 * [Axios](https://github.com/axios/axios)
-* [Mosquitto/MQTT] (https://mosquitto.org)
+* [Mosquitto/MQTT](https://mosquitto.org)
