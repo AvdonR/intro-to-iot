@@ -12,7 +12,6 @@
     <%- include ('partials/nav', {user: user}); %>
     <div class="container">
         <div id="app">
-            <button id="mqttRun" @click="mqttRun()" class="btn-small"><i class="material-icons right">submit</i>Run MQTT</button>
             <div class="row" id="lockList">
                 <h3>Lock list</h3>
                 <table v-if="hasLocks">

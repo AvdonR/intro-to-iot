@@ -2,7 +2,15 @@ import axios from "axios";
 import * as M from "materialize-css";
 import Vue from "vue";
 import * as mqtt from "mqtt";
+import { IClientPublishOptions } from "mqtt";
 
+const client = mqtt.connect('ws://localhost:9000');
+client.on('connect', () => {
+    console.log('Connection succeeded!')
+});
+client.on('message', (topic, message) => {
+    console.log(`Received message ${message} from topic ${topic}`);
+});
 new Vue( {
     computed: {
         hasLocks(): boolean {
@@ -25,12 +33,6 @@ new Vue( {
     },
     el: "#app",
     methods: {
-        mqttRun(){
-            const client = mqtt.connect('ws://localhost:9000');
-            client.on('message', (topic, message) => {
-                console.log(topic, message);
-            });
-        },
         addLock() {
             const lock = {
                 lock_name: (this as any).lock_name,
@@ -83,16 +85,19 @@ new Vue( {
                 status: (this as any).status,
                 id: id
             };
-            /*client.on('connect', function () {
-                client.subcribe('home/sensors/lock_state', function (err: any) {
-                    if (!err) {
-                        
-                    }
-                })
-            });*/
-            
-            // tslint:disable-next-line:no-console
-            console.log("test");
+            client.unsubscribe(`home/sensors/lock_state`);
+            client.subscribe(`home/sensors/lock_state`, (error, res) => {
+                if (error) {
+                  console.log('Subscribe to topics error', error)
+                  return
+                }
+                console.log('Subscribe to topics res', res)
+            });
+            var qos = 0;
+            client.publish(`home/sensors/id`, lock.id, (qos as IClientPublishOptions), error=> {
+                // tslint:disable-next-line:no-console
+                console.log( lock.id );
+            });
             axios
                 .post( `/api/locks/update/${ id }`)
                 .then( (this as any).loadLocks )
@@ -115,8 +120,6 @@ new Vue( {
             }
         },
         mounted() {
-            // tslint:disable-next-line:no-console
-            console.log("method inside");
             return (this as any).loadLocks();
         }
 } );
