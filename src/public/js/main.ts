@@ -4,11 +4,11 @@ import Vue from "vue";
 import * as mqtt from "mqtt";
 import { IClientPublishOptions } from "mqtt";
 
-const client = mqtt.connect('ws://localhost:9000');
-client.on('connect', () => {
+const client = mqtt.connect(`ws://localhost:9000`);
+client.on('connect', async () => {
     console.log('Connection succeeded!')
 });
-client.on('message', (topic, message) => {
+client.on('message', async (topic, message) => {
     console.log(`Received message ${message} from topic ${topic}`);
 });
 new Vue( {
@@ -85,7 +85,7 @@ new Vue( {
                 status: (this as any).status,
                 id: id
             };
-            client.unsubscribe(`home/sensors/lock_state`);
+            /*client.unsubscribe(`home/sensors/lock_state`);
             client.subscribe(`home/sensors/lock_state`, (error, res) => {
                 if (error) {
                   console.log('Subscribe to topics error', error)
@@ -97,7 +97,7 @@ new Vue( {
             client.publish(`home/sensors/id`, lock.id, (qos as IClientPublishOptions), error=> {
                 // tslint:disable-next-line:no-console
                 console.log( lock.id );
-            });
+            });*/
             axios
                 .post( `/api/locks/update/${ id }`)
                 .then( (this as any).loadLocks )

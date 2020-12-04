@@ -23,7 +23,7 @@ public class lockMain {
 		}
 
 		final String publisherId = UUID.randomUUID().toString();
-		final IMqttClient mqttClient = new MqttClient("ws://" + args[0] + ":1883", publisherId);
+		final IMqttClient mqttClient = new MqttClient("tcp://" + args[0] + ":1883", publisherId);
 		try {
 			deviceID = args[1];
 		} catch (Exception e) {
@@ -46,6 +46,7 @@ public class lockMain {
 				MqttMessage returnMessage = new MqttMessage((deviceID+":"+lockState).getBytes());
 				returnMessage.setQos(0);
 				returnMessage.setRetained(true);
+				System.out.println(returnMessage);
 				mqttClient.publish(PUBLISH_TOPIC, returnMessage);
 			}
 			receivedSignal.countDown();
